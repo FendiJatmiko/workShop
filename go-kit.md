@@ -12,7 +12,7 @@ sedikit sejarah mengenai microservices => secara tradisional, aplikasi web diban
     power yang berbeda satu sama lain yang memaksa developer untuk men scale, membanung dan mendeploy ulang seluruh aplikasi
         Aplikasi berbasis microservices bertujuan untuk mengatasi masalah diatas.
 
-        ### 
+      
         Ketika aplikasi monolitik memiliki satu source logs, satu source metrik, satu aplikasi untuk di deploy 
         dan satu API untuk di rate limit,sedangkan microservis memiliki beberapa sources, bebrapa hal yang menjadi
         fokus utama microservis antara lain :
