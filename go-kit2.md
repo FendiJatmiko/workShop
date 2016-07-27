@@ -15,17 +15,18 @@ Aplikasi berbasis microservices bertujuan untuk mengatasi masalah diatas.
 Ketika aplikasi monolitik memiliki satu source logs, satu source metrik, satu aplikasi untuk di deploy 
 dan satu API untuk di rate limit,sedangkan microservis memiliki beberapa sources, bebrapa hal yang menjadi
 fokus utama microservis antara lain :
-1. rate limiters yaitu memberi limit pada batas threshold atas
-2. Serialization adalah konversi antara bahasa struktur data ke byte stream untuk mempresentasikan ke sistem yang lain.
+ 1. rate limiters yaitu memberi limit pada batas threshold atas
+ 2. Serialization adalah konversi antara bahasa struktur data ke byte stream untuk mempresentasikan ke sistem yang lain.
 	sistem yang lain tersebut biasanya berupa browser(json/xml/html) atau database
-3. Logging adalah sebuah catatan output dari aplikasi yang terstruktur yang diurutkan berdasarkan waktu
-4. Metrics adalah catatan yang di instrumenkan dari bagian aplikasi yang termasuk jarak latency, perhitungan request, sistem health dan lain lain. 
-5. Circuit Breakers untuk mencegah resilency terhadap kerusakan intermittent
-6. Request Tracing untuk mendiagnosa masalah antar servis dan membuat ulang sistem secara keseluruhan
-7. Services Discovery memungkinkan servis yang berbeda - beda untuk menemukan satu sama lain
+ 3. Logging adalah sebuah catatan output dari aplikasi yang terstruktur yang diurutkan berdasarkan waktu
+ 4. Metrics adalah catatan yang di instrumenkan dari bagian aplikasi yang termasuk jarak latency, perhitungan request, sistem health dan lain lain. 
+ 5. Circuit Breakers untuk mencegah resilency terhadap kerusakan intermittent
+ 6. Request Tracing untuk mendiagnosa masalah antar servis dan membuat ulang sistem secara keseluruhan
+ 7. Services Discovery memungkinkan servis yang berbeda - beda untuk menemukan satu sama lain
 
 go-kit adalah salah satu tools untuk menangani permasalahan diatas, terdiri dari beberapa abstraksi dan di encode 
 menjadi paket - paket yang menyediakan seperangkat interfaces yang dibutuhkan developer.
+
 
 <b>Berikut adalah contoh program untuk menghitung total integer yang dimasukan 
 dan akan direspon dengan total nya menggunakan go-kit</b> 
