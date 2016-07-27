@@ -32,11 +32,11 @@ menjadi paket - paket yang menyediakan seperangkat interfaces yang dibutuhkan de
 dan akan direspon dengan total nya menggunakan go-kit</b> 
     
     Pertama kita membuat interface yang akan digunakan.
-~~~    
+```javascript    
     type Counter interface {
 	Add(int) int
 	}	
-~~~
+```
 dengan implementasi sebagai berikut : 
 ~~~	
 	type countService struct {
