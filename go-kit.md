@@ -1,21 +1,20 @@
-gokit adalah salah satu tool programing terdistribusi untuk membangun microservices, 
+Gokit adalah salah satu tool programing terdistribusi untuk membangun microservices, 
     yang berguna untuk menyelesaikan permasalahan yang biasanya muncul ketika membangun 
     sistem terdistribusi, sehingga programer dapat lebih fokus pada proses bisnis.
+    
 sedikit sejarah mengenai microservices => secara tradisional, aplikasi web dibangun menggunakan 
     pendekatan monolithic dimana seluruh aplikasi dibuat, didesain, dideploy dan di maintain secara keseluruhan
         contohnya adalah aplikasi wordpress. Wordpress merupakan contoh paling mudah untuk menggambarkan arsitektur 
         aplikasi yang bersifat monolitik, dimana dalam satu aplikasi kita dapat memiliki frontend sekaligus backend.
         semua Fitur security, performance, manajemen, konten, ad, statistik, semuanya dibangun dengan menggunakan
         PHP dan database MYSQL dalam source code yang sama.
-    pada contoh aplikasi web diatas mau tidak mau akan timbul banyak masalah umum dari waktu ke waktu, misalnya
-    cukup mudah untuk layer abstak yang bocor antar modul, kemudian bagian aplikasi yang mungkin memerlukan 
-    power yang berbeda satu sama lain yang memaksa developer untuk men scale, membanung dan mendeploy ulang seluruh aplikasi
-        Aplikasi berbasis microservices bertujuan untuk mengatasi masalah diatas.
-
-        ### 
-        Ketika aplikasi monolitik memiliki satu source logs, satu source metrik, satu aplikasi untuk di deploy 
-        dan satu API untuk di rate limit,sedangkan microservis memiliki beberapa sources, bebrapa hal yang menjadi
-        fokus utama microservis antara lain :
+pada contoh aplikasi web diatas mau tidak mau akan timbul banyak masalah umum dari waktu ke waktu, misalnya
+cukup mudah untuk layer abstak yang bocor antar modul, kemudian bagian aplikasi yang mungkin memerlukan 
+power yang berbeda satu sama lain yang memaksa developer untuk men scale, membanung dan mendeploy ulang seluruh aplikasi
+Aplikasi berbasis microservices bertujuan untuk mengatasi masalah diatas.
+Ketika aplikasi monolitik memiliki satu source logs, satu source metrik, satu aplikasi untuk di deploy 
+dan satu API untuk di rate limit,sedangkan microservis memiliki beberapa sources, bebrapa hal yang menjadi
+fokus utama microservis antara lain :
         1. rate limiters yaitu memberi limit pada batas threshold atas
         2. Serialization adalah konversi antara bahasa struktur data ke byte stream untuk mempresentasikan ke sistem yang lain.
             sistem yang lain tersebut biasanya berupa browser(json/xml/html) atau database
@@ -25,10 +24,13 @@ sedikit sejarah mengenai microservices => secara tradisional, aplikasi web diban
         6. Request Tracing untuk mendiagnosa masalah antar servis dan membuat ulang sistem secara keseluruhan
         7. Services Discovery memungkinkan servis yang berbeda - beda untuk menemukan satu sama lain
 
+
 go-kit adalah salah satu tools untuk menangani permasalahan diatas, terdiri dari beberapa abstraksi dan di encode 
 menjadi paket - paket yang menyediakan seperangkat interfaces yang dibutuhkan developer.
-    Berikut adalah contoh program untuk menghitung total integer yang dimasukan dan akan direspon dengan
-    total nya menggunakan go-kit. 
+
+    Berikut adalah contoh program untuk menghitung total integer yang dimasukan 
+    dan akan direspon dengan total nya menggunakan go-kit. 
+    
     Pertama kita membuat interface yang akan digunakan.
 ~~~    
     type Counter interface {
@@ -124,4 +126,31 @@ func beforePATHExtractor(ctx context.Context, r *http.Request) context.Context {
 ~~~
  yang berguna untuk mengextract path dan request-id dari 
 *http-Request kemudian menambahkannya pada context yang telah disediakan oleh Middleware dan endpoint.
-untuk melihat hasil program diatas dijalankan, dapat 
+
+
+untuk melihat hasil dari program diatas, program harus dideploy terlebih dahulu ke heroku
+kemudian tes dengan :
+~~~
+$ curl  -X POST -d '{"v":1}' 'https://fendi-go-kit.herokuapp.com/add'
+{"v":1}
+$ curl  -X POST -d '{"v":2}' 'https://fendi-go-kit.herokuapp.com/add'
+{"v":3}
+$ curl  -X POST -d '{"v":3}' 'https://fendi-go-kit.herokuapp.com/add'
+{"v":6}
+~~~
+dan ketika terlalu cepat dalam menjalankan perintah curl diatas
+maka <b>rate limiting midlleware</b> akan muncul dengan pesan error :
+~~~
+	rate limit exceeded
+~~~
+curl juga dapat digunakan untuk meng explore record metrics seperti : 
+~~~
+	curl -s 'https://fendi-go-kit.herokuapp.com/debug/vars'
+	dan hasilnya :
+	"request.count": 32
+~~~
+pada 3 perintah curl pertama akan menghasilkan log pada heroku logs berupa : 
+~~~
+2016-07-27T06:21:57.167791+00:00 heroku[router]: at=info method=POST path="/add" host=fendi-go-kit.herokuapp.com request_id=9388e259-5982-4096-a3e6-29d6c3e49f92 fwd="114.120.234.182" dyno=web.1 connect=1ms service=2ms status=200 bytes=144
+2016-07-27T06:21:57.164754+00:00 app[web.1]: path=/add request=2 result=30 err=null request_id=9388e259-5982-4096-a3e6-29d6c3e49f92 elapsed=16.384µs
+~~~
