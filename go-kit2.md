@@ -15,21 +15,20 @@ Aplikasi berbasis microservices bertujuan untuk mengatasi masalah diatas.
 Ketika aplikasi monolitik memiliki satu source logs, satu source metrik, satu aplikasi untuk di deploy 
 dan satu API untuk di rate limit,sedangkan microservis memiliki beberapa sources, bebrapa hal yang menjadi
 fokus utama microservis antara lain :
-
-        1. rate limiters yaitu memberi limit pada batas threshold atas
-        2. Serialization adalah konversi antara bahasa struktur data ke byte stream untuk mempresentasikan ke sistem yang lain.
-            sistem yang lain tersebut biasanya berupa browser(json/xml/html) atau database
-        3. Logging adalah sebuah catatan output dari aplikasi yang terstruktur yang diurutkan berdasarkan waktu
-        4. Metrics adalah catatan yang di instrumenkan dari bagian aplikasi yang termasuk jarak latency, perhitungan request, sistem health dan lain lain. 
-        5. Circuit Breakers untuk mencegah resilency terhadap kerusakan intermittent
-        6. Request Tracing untuk mendiagnosa masalah antar servis dan membuat ulang sistem secara keseluruhan
-        7. Services Discovery memungkinkan servis yang berbeda - beda untuk menemukan satu sama lain
+1. rate limiters yaitu memberi limit pada batas threshold atas
+2. Serialization adalah konversi antara bahasa struktur data ke byte stream untuk mempresentasikan ke sistem yang lain.
+	sistem yang lain tersebut biasanya berupa browser(json/xml/html) atau database
+3. Logging adalah sebuah catatan output dari aplikasi yang terstruktur yang diurutkan berdasarkan waktu
+4. Metrics adalah catatan yang di instrumenkan dari bagian aplikasi yang termasuk jarak latency, perhitungan request, sistem health dan lain lain. 
+5. Circuit Breakers untuk mencegah resilency terhadap kerusakan intermittent
+6. Request Tracing untuk mendiagnosa masalah antar servis dan membuat ulang sistem secara keseluruhan
+7. Services Discovery memungkinkan servis yang berbeda - beda untuk menemukan satu sama lain
 
 go-kit adalah salah satu tools untuk menangani permasalahan diatas, terdiri dari beberapa abstraksi dan di encode 
 menjadi paket - paket yang menyediakan seperangkat interfaces yang dibutuhkan developer.
 
-    Berikut adalah contoh program untuk menghitung total integer yang dimasukan 
-    dan akan direspon dengan total nya menggunakan go-kit. 
+<b>Berikut adalah contoh program untuk menghitung total integer yang dimasukan 
+dan akan direspon dengan total nya menggunakan go-kit</b> 
     
     Pertama kita membuat interface yang akan digunakan.
 ~~~    
@@ -155,9 +154,9 @@ pada 3 perintah curl pertama akan menghasilkan log pada heroku logs berupa :
 2016-07-27T06:21:57.164754+00:00 app[web.1]: path=/add request=2 result=30 err=null request_id=9388e259-5982-4096-a3e6-29d6c3e49f92 elapsed=16.384µs
 ~~~
 
-[Contoh program diatas secara keseluruhan dapat dilihat pada](https://blog.heroku.com/microservices_in_go_using_go_kit)
+[Contoh program diatas secara keseluruhan dapat dilihat pada :]https://blog.heroku.com/microservices_in_go_using_go_kit
 
-[sumber :](https://blog.heroku.com/microservices_in_go_using_go_kit)
+[sumber :]https://blog.heroku.com/microservices_in_go_using_go_kit
 
 ![hasil uji coba 1](https://s31.postimg.org/z10ty0u97/hasil.png)
 ![hasil uji coba 2](https://s32.postimg.org/lf1utn245/hasil2.png)
