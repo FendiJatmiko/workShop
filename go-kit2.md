@@ -1,8 +1,8 @@
-Gokit adalah salah satu tool programing terdistribusi untuk membangun microservices, 
+<b>Gokit</b> adalah salah satu tool programing terdistribusi untuk membangun microservices, 
     yang berguna untuk menyelesaikan permasalahan yang biasanya muncul ketika membangun 
     sistem terdistribusi, sehingga programer dapat lebih fokus pada proses bisnis.
     
-sedikit sejarah mengenai microservices => secara tradisional, aplikasi web dibangun menggunakan 
+sedikit sejarah mengenai <b>microservices</b>  secara tradisional, aplikasi web dibangun menggunakan 
     pendekatan monolithic dimana seluruh aplikasi dibuat, didesain, dideploy dan di maintain secara keseluruhan
         contohnya adalah aplikasi wordpress. Wordpress merupakan contoh paling mudah untuk menggambarkan arsitektur 
         aplikasi yang bersifat monolitik, dimana dalam satu aplikasi kita dapat memiliki frontend sekaligus backend.
