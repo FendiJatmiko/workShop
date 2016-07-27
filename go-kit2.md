@@ -38,7 +38,7 @@ dan akan direspon dengan total nya menggunakan go-kit</b>
 	}	
 ```
 dengan implementasi sebagai berikut : 
-~~~	
+```javascript    
 	type countService struct {
 		v  int
 		mu sync.Mutex
@@ -49,16 +49,16 @@ dengan implementasi sebagai berikut :
 		c.v += v
 		return c.v
 	}
-~~~	
+```	
 kemudian endpoint pada go-kit merepresentasikan satu RPC dan menjadi dasar untuk pembuatan klien - server,
 berikut contoh implementasi endpoint pada go-kit  :
-~~~	
+```javascript    	
 	type Endpoint func(ctx context.Context, request interface{}) (response interface{}, err error)
-~~~	
+```
 kemudian adapter pada go-kit memungkinkan struct yang diimplementasikan kepada satu interfaces 
 yang digunakan ketika membutuhkan interface lainnya, jadi pada kasus ini adapter akan digunakan sebagai endpoint
 untuk menghandle request dan respon akan menggunakan fungsi bernama encoder/encoder.
-~~~
+```javascript    
 	func decodeAddRequest(r *http.Request) (interface{}, error) {
 		var req addRequest
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -70,24 +70,24 @@ untuk menghandle request dan respon akan menggunakan fungsi bernama encoder/enco
 	func encodeResponse(w http.ResponseWriter, response interface{}) error {
 		return json.NewEncoder(w).Encode(response)
 	}
-~~~	
+```
 dan untuk http transport go-kit :
-~~~
+```javascript    
 	func (s Server) ServeHTTP(w http.ResponseWriter, r *http.Request)
-~~~
+```
 yang selanjutnya menggunakan fungsi build-in
-~~~ 
+```javascript     
 		decodeAddRequest,
 		encodeResponse,
-~~~
+```
 metode ini akan diencode oleh
-~~~
+```javascript    
 		return json.NewEncoder(w).Encode(response)
-~~~
+```
 dan dilanjutkan pada
-~~~
+```javascript    
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-~~~
+```
 dan didecode hasil dari JSON.
 
 
@@ -97,7 +97,7 @@ Kemudian menggunakan Middleware yang akan digunakan untuk menggabungkan endpoint
 	Middleware akan digunakan untuk proses <i>logging</i>, <i>metrics</i> dan <i>rate limitting</i>, <i>rate limitting</i> akan
 	menggunakan <i>juju's token bucket</i> dan <i>go-kit rate limitting middleware</i>
 Kemudian akan menggunakan servis metrics middleware 
-~~~
+```javascript    
 func metricsMiddleware(requestCount metrics.Counter) endpoint.Middleware {
 	return func(next endpoint.Endpoint) endpoint.Endpoint {
 		return func(ctx context.Context, request interface{}) (interface{}, error) {
@@ -106,16 +106,16 @@ func metricsMiddleware(requestCount metrics.Counter) endpoint.Middleware {
 		}
 	}
 }
-~~~
+```
 yang berfungsi untuk menambahkan nilai satu pada setiap reques(request.count),
 yang akan diekspos pada servis build-in "expvar" dan dipanggil menggunakan. 
-~~~
+```javascript    
 requestCount := expvar.NewCounter("request.count")
-~~~
+```
 pada main program
 yang terakhir logging Middleware yang akan memberikan output reques path, reques id, request dan respon data
 Logging middleware yang mengandalkan extrator function
-~~~
+```javascript    
 func beforeIDExtractor(ctx context.Context, r *http.Request) context.Context {
 	return context.WithValue(ctx, requestIDKey, r.Header.Get("X-Request-Id"))
 }
@@ -123,7 +123,7 @@ func beforeIDExtractor(ctx context.Context, r *http.Request) context.Context {
 func beforePATHExtractor(ctx context.Context, r *http.Request) context.Context {
 	return context.WithValue(ctx, pathKey, r.URL.EscapedPath())
 }
-~~~
+```
  yang berguna untuk mengextract path dan request-id dari 
 *http-Request kemudian menambahkannya pada context yang telah disediakan oleh Middleware dan endpoint.
 
